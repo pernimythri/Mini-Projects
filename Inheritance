@@ -1,0 +1,116 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+class Employee {
+protected:
+    string name;
+    int id;
+    
+public:
+    void inputDetails() {
+        cout << "Enter Employee Name: ";
+        getline(cin, name);
+        cout << "Enter Employee ID: ";
+        cin >> id;
+        cin.ignore(); 
+    }
+
+    virtual void displayDetails() {
+        cout << "Name: " << name << endl;
+        cout << "ID: " << id << endl;
+    }
+};
+
+class Manager : public Employee {
+private:
+    string department;
+
+public:
+    void inputDetails() {
+        Employee::inputDetails();
+        cout << "Enter Department: ";
+        getline(cin, department);
+    }
+
+    void displayDetails() override {
+        Employee::displayDetails(); 
+        cout << "Department: " << department << endl;
+    }
+};
+
+
+class Developer : public Employee {
+private:
+    string programmingLanguage;
+
+public:
+    void inputDetails() {
+        Employee::inputDetails();
+        cout << "Enter Programming Language: ";
+        getline(cin, programmingLanguage);
+    }
+
+    void displayDetails() override {
+        Employee::displayDetails(); 
+        cout << "Programming Language: " << programmingLanguage << endl;
+    }
+};
+
+
+class Intern : public Employee {
+private:
+    string mentor;
+
+public:
+    void inputDetails() {
+        Employee::inputDetails(); 
+        cout << "Enter Mentor's Name: ";
+        getline(cin, mentor);
+    }
+
+    void displayDetails() override {
+        Employee::displayDetails(); 
+        cout << "Mentor: " << mentor << endl;
+    }
+};
+
+int main() {
+    int choice;
+    
+    cout << "Employee Management System" << endl;
+    cout << "1. Manager" << endl;
+    cout << "2. Developer" << endl;
+    cout << "3. Intern" << endl;
+    cout << "Enter the type of employee you want to input details for: ";
+    cin >> choice;
+    cin.ignore();  
+
+    Employee* emp;
+
+    switch (choice) {
+        case 1: {
+            emp = new Manager();
+            emp->inputDetails();
+            emp->displayDetails();
+            break;
+        }
+        case 2: {
+            emp = new Developer();
+            emp->inputDetails();
+            emp->displayDetails();
+            break;
+        }
+        case 3: {
+            emp = new Intern();
+            emp->inputDetails();
+            emp->displayDetails();
+            break;
+        }
+        default:
+            cout << "Invalid choice!" << endl;
+    }
+
+    delete emp; 
+}
