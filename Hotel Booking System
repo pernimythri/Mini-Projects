@@ -1,0 +1,100 @@
+#include <iostream>
+#include <set>
+#include <algorithm>
+
+using namespace std;
+
+class HotelRoom {
+private:
+    int roomNumber;
+    string roomType;
+    bool isAvailable;
+
+public:
+    HotelRoom(int rNum, string rType, bool availability) {
+        roomNumber = rNum;
+        roomType = rType;
+        isAvailable = availability;
+    }
+
+    void bookRoom() {
+        if (isAvailable) {
+            isAvailable = false;
+            cout << "Room " << roomNumber << " booked successfully!" << endl;
+        } else {
+            cout << "Room " << roomNumber << " is already booked!" << endl;
+        }
+    }
+
+    void showDetails() {
+        cout << "Room Number: " << roomNumber 
+             << "\nRoom Type: " << roomType 
+             << "\nStatus: " << (isAvailable ? "Available" : "Booked") 
+             << endl;
+    }
+};
+
+string toLowerCase(string str) {
+    transform(str.begin(), str.end(), str.begin(), ::tolower);
+    return str;
+}
+
+int main() {
+    int rNum;
+    string rType;
+    char availabilityInput;
+    bool isAvailable;
+
+    set<string> validRoomTypes = {"deluxe", "suite", "executive", "standard"};
+
+    while (true) {
+        cout << "Enter Room Number (1 - 100): ";
+        cin >> rNum;
+
+        if (rNum >= 1 && rNum <= 100) {
+            cin.ignore();  
+            break;
+        } else {
+            cout << "Invalid room number! Please enter a number between 1 and 100.\n";
+        }
+    }
+
+    while (true) {
+        cout << "Enter Room Type (Deluxe, Suite, Executive, Standard): ";
+        getline(cin, rType);
+
+        string lowerType = toLowerCase(rType);
+
+        if (validRoomTypes.find(lowerType) != validRoomTypes.end()) {
+            break;
+        } else {
+            cout << "Invalid room type! Please enter a valid room type (Deluxe, Suite, Executive, Standard).\n";
+        }
+    }
+
+    while (true) {
+        cout << "Is the room available? (y/n): ";
+        cin >> availabilityInput;
+        
+        if (availabilityInput == 'y' || availabilityInput == 'Y') {
+            isAvailable = true;
+            break;
+        } else if (availabilityInput == 'n' || availabilityInput == 'N') {
+            isAvailable = false;
+            break;
+        } else {
+            cout << "Invalid input! Please enter 'y' for Yes or 'n' for No.\n";
+        }
+    }
+
+    HotelRoom room(rNum, rType, isAvailable);
+
+    cout << "\nRoom Details after creation:\n";
+    room.showDetails();
+
+    cout << "\nBooking the room...\n";
+    room.bookRoom();
+
+    cout << "\nUpdated Room Details:\n";
+    room.showDetails();
+}
